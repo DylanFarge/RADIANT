@@ -1,0 +1,40 @@
+1. Sliding Window Issue:
+    The index (names) of the sources were being given the index of the 
+    sliding-window array that they were stored in, rather than the actual
+    index name found in the index of the pd.Dataframe.
+
+    Fixed this by converting index, for example 0, to 0 + df_index before storing.
+
+
+2. Redundant Error Prevention
+    There was code that had if statements to prevent errors from happening.
+    However, due to earlier statements to prevent errors, some if statements
+    used were unreachable. 
+
+    Fixed by removing unnecessary code checks that were unreachable.
+
+
+3. Changing Iterable Mid Loop
+    I had an array of size three and wanted to loop through it. I also
+    call array.remove() on that same array. Thought it was fine because
+    nothing shouted. Came to realise that it only looped twice, which was 
+    the new length of the array, rather than just looping through the remaining
+    elemnets.
+
+    Fixed by rather having a new array "removed" and call .append() on it 
+    during the loop. Then loop throught that array and remove all elements from 
+    other array.
+
+
+4. Internal Duplicates
+    Was not allowed to download file with a threshold of 0.
+
+    Fixed by changing condition (not threshold) to (None == threshold).
+    
+
+5. SkyView Socket Timeout
+    Sometimes when calling SkyView's API, the socket would timeout and an error would be thrown.
+    This did not crash the software as the error was caught, but no indication to the user of an 
+    error wouold ever be present.
+
+    Fixed by reopening the communication socket and trying again when an error was detected. 
